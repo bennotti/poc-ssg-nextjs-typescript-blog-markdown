@@ -37,10 +37,11 @@ export const getStaticPaths = async () => {
     }
 }
 
-export const getStaticProps = async (params: any) => {
-    console.log('params', params);
+export const getStaticProps = async (context: any) => {
+    const { params } = context;
+    console.log('context.params', context.params);
     const markdownWithMetadata = fs
-        .readFileSync(path.join('posts', params.params.slug + '.md'))
+        .readFileSync(path.join('posts', context.params.slug + '.md'))
         .toString();
 
     const parsedMarkdown = matter(markdownWithMetadata);
@@ -49,7 +50,7 @@ export const getStaticProps = async (params: any) => {
     return {
         props: {
             htmlString,
-            slug: params.params.slug,
+            slug: params.slug,
             data: parsedMarkdown.data
         }
     }
