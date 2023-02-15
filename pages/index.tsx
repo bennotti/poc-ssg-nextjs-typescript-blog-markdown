@@ -24,7 +24,7 @@ const Home: NextPage = (params: any) => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
         
-        {params.slugs.map((slug: any) => {
+        {params?.slugs?.map((slug: any) => {
           return (
             <div key={slug} className={styles.grid}>
               <Link href={"/blog/" + slug} className={styles.card}>
