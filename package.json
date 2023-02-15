@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "tsc && next dev",
     "build": "tsc && next build",
+    "export": "next build && next export",
     "start": "next start",
     "test": "tsc && jest --watch",
     "test:ci": "tsc && jest --ci",
