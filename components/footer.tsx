@@ -1,6 +1,5 @@
 import Link from "next/link"
 import styles from "./footer.module.css"
-import packageJSON from "../package.json"
 
 export default function Footer() {
   return (
@@ -18,9 +17,6 @@ export default function Footer() {
         </li>
         <li className={styles.navItem}>
           <Link href="/policy">Policy</Link>
-        </li>
-        <li className={styles.navItem}>
-          <em>next-auth@{packageJSON.dependencies["next-auth"]}</em>
         </li>
       </ul>
     </footer>
