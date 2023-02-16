@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import Nav from '@components/Nav';
-import Layout from '@components/layout';
+import MainLayout from '@layouts/MainLayout';
 // import useSwr from 'swr';
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -18,7 +18,7 @@ const Home: NextPage = (params: any) => {
   // if (!data) return null;
 
   return (
-    <Layout>
+    <MainLayout>
       
       <Head>
         <title>Create Next App</title>
@@ -73,7 +73,7 @@ const Home: NextPage = (params: any) => {
         </a>
       </footer>
     </div>
-    </Layout>
+    </MainLayout>
   )
 }
 

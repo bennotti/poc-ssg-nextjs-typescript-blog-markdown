@@ -1,33 +1,39 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import {
   authenticateAPI,
   unauthenticateAPI,
-  routes,
-  APIType,
-} from "@template/shared";
+} from "@services/authSevice";
 import { useRouter } from "next/router";
+import { NextPage } from "next";
 
-type User = APIType<typeof routes["user"]["me"]["request"]>["data"];
+type User = {
+  nome: string;
+} | null;
+
+type CustomElement = ReactElement & {
+  requiresAuth?: boolean;
+  redirectUnauthenticatedTo?: string;
+};
 
 const AuthContext = React.createContext(
   {} as {
     user: User;
     authenticate: (newToken: string) => Promise<void>;
-    logout: ({ redirectLocation: string }) => void;
+    logout: ({ redirectLocation }: { redirectLocation: string }) => void;
     isLoading: boolean;
     isAuthenticated: boolean;
     token: string;
   }
 );
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }: { children: ReactElement<CustomElement> }) => {
   const [user, setUser] = useState<User>(null);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = !!user;
 
-  const logout = ({ redirectLocation }) => {
+  const logout = ({ redirectLocation }: { redirectLocation: string }) => {
     Cookies.remove("token");
     unauthenticateAPI();
     setUser(null);
@@ -36,12 +42,11 @@ export const AuthProvider = ({ children }) => {
     router.push(redirectLocation || "/login");
   };
 
-  const authenticate = async (token) => {
+  const authenticate = async (token: string) => {
     setIsLoading(true);
     authenticateAPI(token);
     try {
-      const { data: user } = await routes.user.me.request();
-      setUser(user);
+      setUser({ nome: 'temp' });
       Cookies.set("token", token);
     } catch (error) {
       console.log({ error });
@@ -59,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const Component = children.type;
+    const Component: any = children?.type;
 
     // If it doesn't require auth, everything's good.
     if (!Component.requiresAuth) return;
@@ -77,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     if (!isLoading) {
       authenticate(token);
     }
-  }, [isLoading, isAuthenticated, children.type.requiresAuth]);
+  }, [isLoading, isAuthenticated, (children.type as any).requiresAuth]);
 
   return (
     <AuthContext.Provider

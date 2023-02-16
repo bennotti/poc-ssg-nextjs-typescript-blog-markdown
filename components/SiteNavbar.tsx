@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "@contexts/auth";
 import ClientOnly from "./ClientOnly";
 import Link from "next/link";
 import ContentLoader from "react-content-loader";
