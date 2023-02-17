@@ -6,8 +6,7 @@ import { useAuth } from "@contexts/auth";
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
 export default function Header() {
-  const { user, logout, isLoading } = useAuth()
-  const loading = status === "loading"
+  const { user, logout, isLoading } = useAuth();
 
   return (
     <header>
@@ -17,10 +16,10 @@ export default function Header() {
       <div className={styles.signedInStatus}>
         <p
           className={`nojs-show ${
-            !session && loading ? styles.loading : styles.loaded
+            !user && isLoading ? styles.loading : styles.loaded
           }`}
         >
-          {!session && (
+          {!user && (
             <>
               <span className={styles.notSignedInText}>
                 You are not signed in
@@ -30,32 +29,32 @@ export default function Header() {
                 className={styles.buttonPrimary}
                 onClick={(e) => {
                   e.preventDefault()
-                  signIn()
+                  // signIn()
                 }}
               >
                 Sign in
               </a>
             </>
           )}
-          {session?.user && (
+          {user && (
             <>
-              {session.user.image && (
+              {user.image && (
                 <span
-                  style={{ backgroundImage: `url('${session.user.image}')` }}
+                  style={{ backgroundImage: `url('${user.image}')` }}
                   className={styles.avatar}
                 />
               )}
               <span className={styles.signedInText}>
                 <small>Signed in as</small>
                 <br />
-                <strong>{session.user.email ?? session.user.name}</strong>
+                <strong>{user.email ?? user.name}</strong>
               </span>
               <a
                 href={`/api/auth/signout`}
                 className={styles.button}
                 onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
+                  e.preventDefault();
+                  logout({ redirectLocation: '/' });
                 }}
               >
                 Sign out

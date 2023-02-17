@@ -8,7 +8,9 @@ import { useRouter } from "next/router";
 import { NextPage } from "next";
 
 type User = {
-  nome: string;
+  name: string;
+  image: string;
+  email: string;
 } | null;
 
 type CustomElement = ReactElement & {
