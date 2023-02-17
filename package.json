@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "tsc && next dev",
+    "open-browser": "start http://localhost:3000",
+    "dev": "tsc && yarn open-browser && next dev",
     "build": "tsc && next build",
-    "export": "next build && next export",
+    "export": "tsc && next build && next export -o dist",
     "start": "next start",
     "test": "tsc && jest --watch",
     "test:ci": "tsc && jest --ci",
