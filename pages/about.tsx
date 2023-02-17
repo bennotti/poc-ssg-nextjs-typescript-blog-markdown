@@ -11,7 +11,7 @@ import { AnyObject } from '@core/types';
 
 // const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-const Home: NextPage = (params: AnyObject) => {
+const About: NextPage = (params: AnyObject) => {
   // const { data, error, isLoading } = useSwr<User[]>('/api/users', fetcher);
 
   // if (error) return <div>Failed to load users</div>;
@@ -30,12 +30,12 @@ const Home: NextPage = (params: AnyObject) => {
 
       <main>
         <h1 data-testid="heading1" className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+        About Page
         </h1>
 
         <p className={styles.description}>
           Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          <code className={styles.code}>pages/about.tsx</code>
         </p>
         
         {/* <ul>
@@ -85,4 +85,4 @@ export const getStaticProps = async () => {
   };
 };
 
-export default Home
+export default About

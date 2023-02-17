@@ -9,7 +9,7 @@ import { NextPage } from "next";
 
 type User = {
   name: string;
-  image: string;
+  image?: string;
   email: string;
 } | null;
 
@@ -25,7 +25,7 @@ const AuthContext = React.createContext(
     logout: ({ redirectLocation }: { redirectLocation: string }) => void;
     isLoading: boolean;
     isAuthenticated: boolean;
-    token: string;
+    token?: string;
   }
 );
 
@@ -48,7 +48,10 @@ export const AuthProvider = ({ children }: { children: ReactElement<CustomElemen
     setIsLoading(true);
     authenticateAPI(token);
     try {
-      setUser({ nome: 'temp' });
+      setUser({
+        name: 'nome temp',
+        email: 'email@temp.com'
+      });
       Cookies.set("token", token);
     } catch (error) {
       console.log({ error });

@@ -10,6 +10,9 @@ export const api = Axios.create({
 
 let authInterceptorID: number;
 export const authenticateAPI = (token: string) => {
+  if (!token || (token && token === '')) {
+    return;
+  }
   authInterceptorID = api.interceptors.request.use((config) => {
     config.headers.authorization = `bearer ${token}`;
     return config;

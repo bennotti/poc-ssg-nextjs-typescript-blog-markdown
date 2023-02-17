@@ -8,7 +8,7 @@ import type { NextPage } from 'next'
 import styles from '../../styles/Home.module.css'
 
 const Post: NextPage = (params: any) => {
-    console.log('page', params);
+    // console.log('page', params);
     return (
         <>
         <div className={styles.container}>
@@ -24,13 +24,13 @@ const Post: NextPage = (params: any) => {
 
 export const getStaticPaths = async () => {
     const files = fs.readdirSync('posts');
-    console.log('files', files);
+    // console.log('files', files);
     const paths = files.map(filename => ({
         params: {
             slug: filename.replace('.md', '')
         }
     }));
-    console.log('paths: ', paths);
+    // console.log('paths: ', paths);
     return {
         paths,
         fallback: false,
@@ -39,7 +39,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context: any) => {
     const { params } = context;
-    console.log('context.params', context.params);
+    // console.log('context.params', context.params);
     const markdownWithMetadata = fs
         .readFileSync(path.join('posts', context.params.slug + '.md'))
         .toString();

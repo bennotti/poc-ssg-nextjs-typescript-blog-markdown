@@ -1,39 +1,92 @@
-import React from "react";
+import React, { FC } from "react";
+import { Button, Input, Col, Form, Divider, Row } from 'antd';
+import { AnyObject } from "@core/types";
 
-export const CustomField = ({ name, label, type }) => (
-  <BootstrapForm.Group>
-    <BootstrapForm.Label htmlFor={name}>{label}</BootstrapForm.Label>
-    <Field
-      name={name}
-      type={type}
-      className="form-control"
-      as={BootstrapForm.Control}
-    />
-    <BootstrapForm.Text className="text-muted">
-      <ErrorMessage name={name} className="text-danger" component="p" />
-    </BootstrapForm.Text>
-  </BootstrapForm.Group>
+interface CustomInputProps {
+  placeholder?: string;
+  type?: string;
+  disabled?: boolean;
+};
+
+export const CustomInput: FC<CustomInputProps> = ({
+  placeholder = '',
+  type = '',
+  disabled = false
+}) => {
+  if (type === 'password') {
+    return (
+      <>
+        <Input.Password
+          disabled={disabled}
+          placeholder={placeholder}
+          autoComplete='off'
+        />
+      </>
+    )
+  }
+
+
+  return (
+    <>
+      <Input
+        disabled={disabled}
+        placeholder={placeholder}
+        autoComplete='off'
+      />
+    </>
+  );
+};
+
+interface CustomFieldProps extends CustomInputProps {
+  name: string;
+  label: string;
+};
+
+export const CustomField: FC<CustomFieldProps> = ({
+  name = '',
+  label = '',
+  type = '',
+  disabled = false,
+  placeholder = ''
+}) => (
+  <Form.Item
+    label={label}
+    name={name}
+  >
+    <CustomInput type={type} disabled={disabled} placeholder={placeholder} />
+  </Form.Item>
 );
 
-export default function EmailPasswordForm({ formik }) {
-  return (
-    <Form>
-      <CustomField name="email" type="email" label="Email Address" />
-      <CustomField name="password" type="password" label="Password" />
+interface EmailPasswordFormProps {
+  onSubmit: (data: AnyObject) => void;
+  submitText?: string;
+};
 
-      <Button
-        block
-        type="submit"
-        className="mt-4 gradient"
-        size="lg"
-        disabled={formik.isSubmitting}
-        style={{
-          background: "linear-gradient(to right, #5FC3E4, #E55D87)",
-          border: "0px solid black",
-        }}
-      >
-        Submit
-      </Button>
+export const EmailPasswordForm: FC<EmailPasswordFormProps> = ({
+  submitText = 'Confirmar',
+  onSubmit
+}) => {
+  const [form] = Form.useForm();
+
+  const handleOnSubmit = async () => {
+    const values = await form.validateFields();
+    onSubmit?.(values);
+  };
+
+  return (
+    <Form
+      layout="vertical"
+      form={form}
+      requiredMark={false}
+    >
+      <CustomField name="email" type="email" label="Email Address" placeholder="Email" />
+      <CustomField name="password" type="password" label="Password" placeholder="Email" />
+
+      <Form.Item>
+        <Button onClick={handleOnSubmit}>{submitText}</Button>
+      </Form.Item>
     </Form>
   );
 }
+
+export default EmailPasswordForm;

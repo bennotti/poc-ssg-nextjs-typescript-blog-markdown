@@ -16,6 +16,7 @@ const customJestConfig = {
     '^@layouts/(.*)$': '<rootDir>/layouts/$1',
     '^@contexts/(.*)$': '<rootDir>/contexts/$1',
     '^@services/(.*)$': '<rootDir>/services/$1',
+    '^@core/(.*)$': '<rootDir>/core/$1',
     '^@/(.*)$': '<rootDir>/$1',
   },
   testEnvironment: 'jest-environment-jsdom',

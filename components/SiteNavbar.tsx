@@ -3,44 +3,66 @@ import { useAuth } from "@contexts/auth";
 import ClientOnly from "./ClientOnly";
 import Link from "next/link";
 import ContentLoader from "react-content-loader";
+import { Col, Menu, Row } from "antd";
+import type { MenuProps } from 'antd';
+
+const items1: MenuProps['items'] = [
+  {
+    key: 'inicio',
+    label: (<Link href='/'>Inicio</Link>)
+  },
+  {
+    key: 'dashboard',
+    label: (<Link href='/dashboard'>Dashboard</Link>)
+  },
+  {
+    key: 'about',
+    label: (<Link href='/about'>About</Link>)
+  }
+];
+
+const itemsUnathorized: MenuProps['items'] = [
+  {
+    key: 'signup',
+    label: (<Link href='/signup'>Signup</Link>)
+  },
+  {
+    key: 'login',
+    label: (<Link href='/login'>Login</Link>)
+  }
+];
+
+const itemsAthorized: MenuProps['items'] = [
+  {
+    key: 'logout',
+    label: 'Logout'
+  }
+];
 
 export default function SiteNavbar() {
   return (
-    <Navbar bg="light" expand="lg" sticky="top">
-      <Container>
-        <Link href="/">
-          <Navbar.Brand href="/">AdonisNXT</Navbar.Brand>
-        </Link>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Link href="/dashboard/my-todos" passHref>
-              <Nav.Link>My todos</Nav.Link>
-            </Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <ClientOnly>
-            <AuthDetails />
-          </ClientOnly>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <Row>
+      <Col span={20}>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={items1} />
+      </Col>
+      <Col span={4}>
+        <ClientOnly>
+          <AuthDetails />
+        </ClientOnly>
+      </Col>
+    </Row>
   );
 }
 
 function AuthDetails() {
   const { user, logout, isLoading } = useAuth();
+
+  const onMenuAuthorizedClick: MenuProps['onClick'] = async e => {
+      if (e.key === 'logout') {
+        logout({ redirectLocation: "/" });
+      }
+  };
+
   if (isLoading)
     return (
       <ContentLoader uniqueKey="aUniqueKeyToMatchSSR" height="20">
@@ -49,24 +71,9 @@ function AuthDetails() {
     );
   if (!user)
     return (
-      <div>
-        <Nav>
-          <Link href="/signup" passHref>
-            <Nav.Link>Signup</Nav.Link>
-          </Link>
-
-          <Link href="/login" passHref>
-            <Nav.Link href="login">Login</Nav.Link>
-          </Link>
-        </Nav>
-      </div>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={itemsUnathorized} />
     );
   return (
-    <Nav>
-      <Nav.Link>{user.email}</Nav.Link>
-      <Nav.Link onClick={() => logout({ redirectLocation: "/login" })}>
-        Logout
-      </Nav.Link>
-    </Nav>
+    <Menu onClick={onMenuAuthorizedClick} theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={itemsAthorized} />
   );
 }

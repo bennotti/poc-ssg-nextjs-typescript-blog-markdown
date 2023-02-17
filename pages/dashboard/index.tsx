@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useAuth } from "../../contexts/auth";
 import MainLayout from "../../layouts/MainLayout";
 import ContentLoader from "react-content-loader";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row } from "antd";
 
 const Dashboard = () => {
   const { user } = useAuth();

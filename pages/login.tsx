@@ -1,10 +1,11 @@
 import MainLayout from "@layouts/MainLayout";
 import LoginForm from "@components/LoginForm";
+import { Col, Row } from "antd";
 export default function Login() {
   return (
     <MainLayout>
-      <Row className="h-50 justify-content-center">
-        <Col lg={6} className="my-auto">
+      <Row justify={'center'}>
+        <Col span={8}>
           <h1>Login</h1>
           <LoginForm />
         </Col>
